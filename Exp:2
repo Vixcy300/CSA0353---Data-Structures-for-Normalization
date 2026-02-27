@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int main() {
+    int n, i;
+    int even_count = 0, odd_count = 0;
+
+    printf("Enter the count of numbers: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    printf("Enter %d numbers:\n", n);
+    for (i = 0; i < n; i++) {
+        printf("  Element[%d]: ", i);
+        scanf("%d", &arr[i]);
+    }
+
+    printf("\nEven numbers: ");
+    for (i = 0; i < n; i++) {
+        if (arr[i] % 2 == 0) {
+            printf("%d ", arr[i]);
+            even_count++;
+        }
+    }
+
+    printf("\nOdd numbers:  ");
+    for (i = 0; i < n; i++) {
+        if (arr[i] % 2 != 0) {
+            printf("%d ", arr[i]);
+            odd_count++;
+        }
+    }
+
+    printf("\n\nTotal Even numbers: %d", even_count);
+    printf("\nTotal Odd numbers:  %d\n", odd_count);
+
+    return 0;
+}
