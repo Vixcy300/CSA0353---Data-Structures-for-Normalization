@@ -1,0 +1,51 @@
+#include <stdio.h>
+
+void printFibonacci(int n) {
+    long long first = 0, second = 1, next;
+    int i;
+
+    printf("\nFibonacci Series up to %d terms:\n\n", n);
+    printf("  Term 1: %lld\n", first);
+
+    if (n == 1) return;
+
+    printf("  Term 2: %lld\n", second);
+
+    for (i = 3; i <= n; i++) {
+        next = first + second;
+        printf("  Term %d: %lld + %lld = %lld\n", i, first, second, next);
+        first = second;
+        second = next;
+    }
+}
+
+int main() {
+    int n;
+
+    printf("========================================\n");
+    printf("   FIBONACCI SERIES (Without Recursion) \n");
+    printf("========================================\n");
+
+    printf("\nEnter number of terms: ");
+    scanf("%d", &n);
+
+    if (n <= 0) {
+        printf("Error! Please enter a positive integer.\n");
+        return 1;
+    }
+
+    printFibonacci(n);
+
+    printf("\nFibonacci Series: ");
+    long long a = 0, b = 1, c;
+    printf("%lld %lld ", a, b);
+    for (int i = 3; i <= n; i++) {
+        c = a + b;
+        printf("%lld ", c);
+        a = b;
+        b = c;
+    }
+    printf("\n");
+
+    return 0;
+}
