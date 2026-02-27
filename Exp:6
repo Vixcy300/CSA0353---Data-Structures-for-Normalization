@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+// Recursive function to find nth Fibonacci number
+long long fibonacci(int n) {
+    if (n == 0) return 0;  // Base case 1
+    if (n == 1) return 1;  // Base case 2
+
+    // Recursive case
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+void printFibonacciSeries(int n) {
+    printf("\nFibonacci Series (%d terms): ", n);
+    for (int i = 0; i < n; i++) {
+        printf("%lld ", fibonacci(i));
+    }
+    printf("\n");
+}
+
+int main() {
+    int n, pos;
+    char choice;
+
+    printf("========================================\n");
+    printf("   FIBONACCI SERIES (Using Recursion)   \n");
+    printf("========================================\n");
+
+    do {
+        printf("\nOptions:\n");
+        printf("  1. Print full Fibonacci series\n");
+        printf("  2. Find Fibonacci number at specific position\n");
+        printf("Enter choice (1 or 2): ");
+        int opt;
+        scanf("%d", &opt);
+
+        if (opt == 1) {
+            printf("Enter number of terms: ");
+            scanf("%d", &n);
+            if (n <= 0)
+                printf("Error! Enter a positive number.\n");
+            else
+                printFibonacciSeries(n);
+
+        } else if (opt == 2) {
+            printf("Enter position (0-based): ");
+            scanf("%d", &pos);
+            if (pos < 0)
+                printf("Error! Position must be non-negative.\n");
+            else
+                printf("Fibonacci number at position %d = %lld\n",
+                       pos, fibonacci(pos));
+        } else {
+            printf("Invalid option!\n");
+        }
+
+        printf("\nContinue? (y/n): ");
+        scanf(" %c", &choice);
+
+    } while (choice == 'y' || choice == 'Y');
+
+    printf("\nGoodbye!\n");
+    return 0;
+}
