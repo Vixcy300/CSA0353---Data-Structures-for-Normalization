@@ -1,0 +1,83 @@
+#include <stdio.h>
+
+// Function to sort array (Bubble Sort) before Binary Search
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++)
+        for (int j = 0; j < n - i - 1; j++)
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+}
+
+int binarySearch(int arr[], int n, int key) {
+    int low = 0, high = n - 1, mid, step = 1;
+
+    printf("\n--- Binary Search Trace ---\n");
+
+    while (low <= high) {
+        mid = (low + high) / 2;
+        printf("  Step %d: low=%d, high=%d, mid=%d, arr[mid]=%d\n",
+               step++, low, high, mid, arr[mid]);
+
+        if (arr[mid] == key) {
+            printf("  --> MATCH FOUND at index %d!\n", mid);
+            return mid;
+        } else if (arr[mid] < key) {
+            printf("  --> %d < %d, search RIGHT half\n", arr[mid], key);
+            low = mid + 1;
+        } else {
+            printf("  --> %d > %d, search LEFT half\n", arr[mid], key);
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    int n, key;
+    char choice;
+
+    printf("========================================\n");
+    printf("          BINARY SEARCH PROGRAM         \n");
+    printf("========================================\n");
+
+    printf("\nEnter number of elements: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        printf("  arr[%d]: ", i);
+        scanf("%d", &arr[i]);
+    }
+
+    // Sort the array first (Binary Search requires sorted array)
+    bubbleSort(arr, n);
+
+    printf("\nSorted Array: ");
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    do {
+        printf("\n\nEnter the number to search: ");
+        scanf("%d", &key);
+
+        int result = binarySearch(arr, n, key);
+
+        printf("\n-------------------------------\n");
+        if (result != -1)
+            printf("  %d found at position %d (index %d)\n", key, result + 1, result);
+        else
+            printf("  %d not found in the array.\n", key);
+        printf("-------------------------------\n");
+
+        printf("\nSearch again? (y/n): ");
+        scanf(" %c", &choice);
+
+    } while (choice == 'y' || choice == 'Y');
+
+    return 0;
+}
