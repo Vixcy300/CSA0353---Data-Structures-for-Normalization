@@ -1,0 +1,238 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define Node structure
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* head = NULL;  // Global head pointer
+
+// Create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Insert at beginning
+void insertAtBeginning(int data) {
+    struct Node* newNode = createNode(data);
+    newNode->next = head;
+    head = newNode;
+    printf("  Inserted %d at the beginning.\n", data);
+}
+
+// Insert at end
+void insertAtEnd(int data) {
+    struct Node* newNode = createNode(data);
+    if (head == NULL) {
+        head = newNode;
+    } else {
+        struct Node* temp = head;
+        while (temp->next != NULL)
+            temp = temp->next;
+        temp->next = newNode;
+    }
+    printf("  Inserted %d at the end.\n", data);
+}
+
+// Insert at a specific position
+void insertAtPosition(int data, int pos) {
+    if (pos == 1) {
+        insertAtBeginning(data);
+        return;
+    }
+    struct Node* newNode = createNode(data);
+    struct Node* temp = head;
+    for (int i = 1; i < pos - 1 && temp != NULL; i++)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("  Error! Position out of range.\n");
+        free(newNode);
+        return;
+    }
+    newNode->next = temp->next;
+    temp->next = newNode;
+    printf("  Inserted %d at position %d.\n", data, pos);
+}
+
+// Delete from beginning
+void deleteFromBeginning() {
+    if (head == NULL) {
+        printf("  Error! List is empty.\n");
+        return;
+    }
+    struct Node* temp = head;
+    printf("  Deleted %d from the beginning.\n", temp->data);
+    head = head->next;
+    free(temp);
+}
+
+// Delete from end
+void deleteFromEnd() {
+    if (head == NULL) {
+        printf("  Error! List is empty.\n");
+        return;
+    }
+    if (head->next == NULL) {
+        printf("  Deleted %d from the end.\n", head->data);
+        free(head);
+        head = NULL;
+        return;
+    }
+    struct Node* temp = head;
+    while (temp->next->next != NULL)
+        temp = temp->next;
+    printf("  Deleted %d from the end.\n", temp->next->data);
+    free(temp->next);
+    temp->next = NULL;
+}
+
+// Delete by value
+void deleteByValue(int key) {
+    if (head == NULL) {
+        printf("  Error! List is empty.\n");
+        return;
+    }
+    if (head->data == key) {
+        deleteFromBeginning();
+        return;
+    }
+    struct Node* temp = head;
+    while (temp->next != NULL && temp->next->data != key)
+        temp = temp->next;
+
+    if (temp->next == NULL) {
+        printf("  Error! %d not found in list.\n", key);
+        return;
+    }
+    struct Node* toDelete = temp->next;
+    temp->next = toDelete->next;
+    free(toDelete);
+    printf("  Deleted node with value %d.\n", key);
+}
+
+// Display the linked list
+void display() {
+    if (head == NULL) {
+        printf("  List is empty!\n");
+        return;
+    }
+    printf("  Linked List: ");
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d", temp->data);
+        if (temp->next != NULL) printf(" -> ");
+        temp = temp->next;
+    }
+    printf(" -> NULL\n");
+}
+
+// Search for a value
+void search(int key) {
+    struct Node* temp = head;
+    int pos = 1, found = 0;
+    while (temp != NULL) {
+        if (temp->data == key) {
+            printf("  %d found at position %d.\n", key, pos);
+            found = 1;
+        }
+        temp = temp->next;
+        pos++;
+    }
+    if (!found)
+        printf("  %d not found in the list.\n", key);
+}
+
+// Count nodes
+void countNodes() {
+    int count = 0;
+    struct Node* temp = head;
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+    printf("  Total nodes: %d\n", count);
+}
+
+int main() {
+    int choice, data, pos;
+
+    printf("========================================\n");
+    printf("       LINKED LIST OPERATIONS           \n");
+    printf("========================================\n");
+
+    do {
+        printf("\n--- MENU ---\n");
+        printf("  1. Insert at Beginning\n");
+        printf("  2. Insert at End\n");
+        printf("  3. Insert at Position\n");
+        printf("  4. Delete from Beginning\n");
+        printf("  5. Delete from End\n");
+        printf("  6. Delete by Value\n");
+        printf("  7. Display List\n");
+        printf("  8. Search Element\n");
+        printf("  9. Count Nodes\n");
+        printf("  10. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("  Enter value: ");
+                scanf("%d", &data);
+                insertAtBeginning(data);
+                display();
+                break;
+            case 2:
+                printf("  Enter value: ");
+                scanf("%d", &data);
+                insertAtEnd(data);
+                display();
+                break;
+            case 3:
+                printf("  Enter value and position: ");
+                scanf("%d %d", &data, &pos);
+                insertAtPosition(data, pos);
+                display();
+                break;
+            case 4:
+                deleteFromBeginning();
+                display();
+                break;
+            case 5:
+                deleteFromEnd();
+                display();
+                break;
+            case 6:
+                printf("  Enter value to delete: ");
+                scanf("%d", &data);
+                deleteByValue(data);
+                display();
+                break;
+            case 7:
+                display();
+                break;
+            case 8:
+                printf("  Enter value to search: ");
+                scanf("%d", &data);
+                search(data);
+                break;
+            case 9:
+                countNodes();
+                break;
+            case 10:
+                printf("Exiting. Goodbye!\n");
+                break;
+            default:
+                printf("  Invalid choice! Try again.\n");
+        }
+
+    } while (choice != 10);
+
+    return 0;
+}
