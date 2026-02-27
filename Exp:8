@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+int linearSearch(int arr[], int n, int key) {
+    printf("\n--- Search Trace ---\n");
+    for (int i = 0; i < n; i++) {
+        printf("  Comparing arr[%d] = %d with %d", i, arr[i], key);
+        if (arr[i] == key) {
+            printf(" --> MATCH FOUND!\n");
+            return i;  // Return index if found
+        }
+        printf(" --> No match\n");
+    }
+    return -1;  // Not found
+}
+
+int main() {
+    int n, key;
+    char choice;
+
+    printf("========================================\n");
+    printf("          LINEAR SEARCH PROGRAM         \n");
+    printf("========================================\n");
+
+    printf("\nEnter number of elements: ");
+    scanf("%d", &n);
+
+    int arr[n];
+
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        printf("  arr[%d]: ", i);
+        scanf("%d", &arr[i]);
+    }
+
+    printf("\nArray: ");
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+
+    do {
+        printf("\n\nEnter the number to search: ");
+        scanf("%d", &key);
+
+        int result = linearSearch(arr, n, key);
+
+        printf("\n-------------------------------\n");
+        if (result != -1)
+            printf("  %d found at position %d (index %d)\n", key, result + 1, result);
+        else
+            printf("  %d not found in the array.\n", key);
+        printf("-------------------------------\n");
+
+        printf("\nSearch again? (y/n): ");
+        scanf(" %c", &choice);
+
+    } while (choice == 'y' || choice == 'Y');
+
+    return 0;
+}
