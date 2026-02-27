@@ -1,0 +1,66 @@
+#include <stdio.h>
+
+// Function to input matrix elements
+void getMatrix(int matrix[][10], int rows, int cols) {
+    printf("Enter elements:\n");
+    for (int i = 0; i < rows; i++)
+        for (int j = 0; j < cols; j++) {
+            printf("  [%d][%d]: ", i, j);
+            scanf("%d", &matrix[i][j]);
+        }
+}
+
+// Function to multiply two matrices
+void multiplyMatrices(int A[][10], int B[][10], int C[][10],
+                      int r1, int c1, int c2) {
+    // Initialize result matrix to 0
+    for (int i = 0; i < r1; i++)
+        for (int j = 0; j < c2; j++)
+            C[i][j] = 0;
+
+    // Perform multiplication
+    for (int i = 0; i < r1; i++)
+        for (int j = 0; j < c2; j++)
+            for (int k = 0; k < c1; k++)
+                C[i][j] += A[i][k] * B[k][j];
+}
+
+// Function to display matrix
+void displayMatrix(int matrix[][10], int rows, int cols) {
+    printf("\nResultant Matrix:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++)
+            printf("%5d ", matrix[i][j]);
+        printf("\n");
+    }
+}
+
+int main() {
+    int A[10][10], B[10][10], C[10][10];
+    int r1, c1, r2, c2;
+
+    printf("Enter rows and columns of Matrix A: ");
+    scanf("%d %d", &r1, &c1);
+    printf("Enter rows and columns of Matrix B: ");
+    scanf("%d %d", &r2, &c2);
+
+    // Validate multiplication condition
+    while (c1 != r2) {
+        printf("Error! Columns of A must equal Rows of B.\n");
+        printf("Re-enter rows and columns of Matrix A: ");
+        scanf("%d %d", &r1, &c1);
+        printf("Re-enter rows and columns of Matrix B: ");
+        scanf("%d %d", &r2, &c2);
+    }
+
+    printf("\n--- Matrix A ---\n");
+    getMatrix(A, r1, c1);
+
+    printf("\n--- Matrix B ---\n");
+    getMatrix(B, r2, c2);
+
+    multiplyMatrices(A, B, C, r1, c1, c2);
+    displayMatrix(C, r1, c2);
+
+    return 0;
+}
